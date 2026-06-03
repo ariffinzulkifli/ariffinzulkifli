@@ -1,12 +1,13 @@
 name: Metrics
 on:
-  schedule: [{cron: "0 0 * * *"}]   # daily update
-  workflow_dispatch:                 # allow manual run
-  push: {branches: ["main"]}
-
+  schedule: [{cron: "0 0 * * *"}]
+  workflow_dispatch:
+  push: {branches: ["master", "main"]}
 jobs:
   github-metrics:
     runs-on: ubuntu-latest
+    environment:
+      name: production
     permissions:
       contents: write
     steps:
@@ -14,6 +15,17 @@ jobs:
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           user: ariffinzulkifli
+          template: classic
           base: header, activity, community, repositories, metadata
+          base_hireable: yes
+          config_octicon: yes
+          config_timezone: Asia/Kuala_Lumpur
+          plugin_introduction: yes
+          plugin_introduction_title: yes
           plugin_languages: yes
+          plugin_languages_colors: github
           plugin_languages_limit: 8
+          plugin_languages_sections: most-used
+          plugin_languages_threshold: 0%
+          plugin_lines: yes
+          plugin_lines_sections: base
